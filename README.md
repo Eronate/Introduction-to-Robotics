@@ -3,5 +3,5 @@
 
 ## Homework 1
 Task: "Use a separate potentiometer for controlling each color of the RGB LED:Red,Green, andBlue.  This control must leveragedigital electronics.  Specifically,you  need  to  read  the  potentiometer’s  value  with  Arduino  and  then  write  amapped value to the LED pins."
-![WhatsApp Image 2023-10-23 at 21 42 33](https://github.com/Eronate/Introduction-to-Robotics/assets/99949441/bbe62097-65e5-4d6f-bc76-840cc9cc204f)
+<img src="https://github.com/Eronate/Introduction-to-Robotics/assets/99949441/bbe62097-65e5-4d6f-bc76-840cc9cc204f" width="600" height="450">
 Functionality showcase: https://youtube.com/shorts/SaiOIygApBE?feature=share
