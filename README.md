@@ -8,9 +8,6 @@ Task summary: "Use a separate potentiometer for controlling each color of the RG
 
 Functionality showcase: https://youtube.com/shorts/SaiOIygApBE?feature=share
 
-https://youtube.com/shorts/96-ROu_GeIg?feature=share
-
-
 ## Homework 2
 Task summary: "Design a control system that simulates a 3-floor elevator using the Arduino platform. LED Indicators: Each of the 3 LEDs should represent one of the 3 floors. The LED corresponding to the current floor should light up.  Additionally, another LED should represent the elevator’s operational state.  It should blink when the elevator is moving and remain static when stationary. Implement 3 buttons that represent the call buttons from the 3 floors. When pressed, the elevator should simulate movement towardsthe floor after a short interval (2-3 seconds)."
 
