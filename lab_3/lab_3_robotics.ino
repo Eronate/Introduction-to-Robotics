@@ -1,6 +1,6 @@
 const int dpPin = 4, aPin = 12 , bPin = 10, cPin=9, dPin = 8, ePin = 7, fPin = 6, gPin = 5, clickPin = 13;
 int xJoyPin = A0, yJoyPin= A1;
-const int pins[] = {dpPin, aPin, bPin, cPin, dPin, ePin, fPin, gPin};
+const int pins[] = {aPin, bPin, cPin, dPin, ePin, fPin, gPin, dpPin};
 bool currConfig[] = {  0,     0,   0,     0,    0,    0,    0,    0};
 bool currPressedState[] = {0,0,0,0,0,0,0,0};
 int currentPosition = 0, lastPosition =0;
@@ -9,26 +9,33 @@ const int lengthPins = sizeof(pins) / sizeof(pins[0]);
 const int minThreshold = 350, maxThreshold = 700; 
 unsigned long startTimeFlicker=0, flickerInterval = 200, clickDebouncer = 50, startTimeClick = 0, clickResetTimer = 3000;
 int xValue, yValue;
-int row, column, initialRow, initialColumn;
+int row, initialRow;
 int hasHandledMove, hasHandledClick, movedInDirectionBool, directionThatNeedsToReset, hasHandledReset;
 
 //For handling clicks, whatToDoWithClicking: 0 - do nothing, 1 - light up led, 2 - reset
 int lastClickState, whatToDoWithClicking, clickState = 0;
-int ledMap[][6] = 
-{// 0   1   2   3   4   5
-  {-1, -1, -1, -1, -1, -1}, //0
-  {-1, -1,  1, -1, -1, -1}, //1
-  {-1,  6,  7,  2, -1, -1}, //2
-  {-1,  5,  4,  3,  0, -1}, //3
-  {-1, -1, -1, -1, -1, -1}  //4
+int ledMap[][4] = 
+{// UP, DOWN, LEFT, RIGHT
+  //0
+  {-1,   6,   5,     1}, //a
+  //1
+  {0,    6,   5,    -1}, //b
+  //2
+  {6,    3,   4,     7}, //c
+  //3
+  {6,   -1,   4,     2}, //d
+  //4
+  {6,    3,   -1,    2}, //e
+  //5  
+  {0,    6,   -1,    1}, //f
+  //6
+  {0,    3,   -1,   -1}, //g
+  //7
+  {-1,  -1,   2,    -1} //dp
 };
 
-//function to check if current row and column are inside matrix borders
-int checkIfOutOfBounds(int rowSize, int columnSize, int row, int col)
+int checkIfOutOfBounds(int row, int col)
 {
-  if(row > rowSize || row <0 || col > columnSize || col<0)
-    return -1;
-  
   return ledMap[row][col];
 }
 
@@ -46,16 +53,22 @@ void moveHandler(int axisValue, int direction)
       //if the move hasn't been handled, we handle it once and set the operation as handled to give toggle effect
         if(hasHandledMove == 0)
           {
-            //Handling matrix navigation through joystick input. 0 = row, 1 = column
+            //Handling matrix navigation through joystick input.
             if(direction == 0)
               {
-                if(checkIfOutOfBounds(4, 5, row-1, column) != -1)
-                  row -= 1;
+                if(checkIfOutOfBounds(row, 3) != -1)
+                  {
+                    currentPosition = ledMap[row][3];
+                    row = currentPosition;
+                  }
               }
             else 
               {
-                if(checkIfOutOfBounds(4, 5, row, column+1) != -1)
-                  column += 1;
+                if(checkIfOutOfBounds(row, 0) != -1)
+                  {
+                    currentPosition = ledMap[row][0];
+                    row = currentPosition;
+                  }
               }
             hasHandledMove = 1;
             directionThatNeedsToReset = direction;
@@ -69,13 +82,19 @@ void moveHandler(int axisValue, int direction)
           {
             if(direction == 0)
               {
-                if(checkIfOutOfBounds(4, 5, row+1, column) != -1)
-                  row += 1;
+                if(checkIfOutOfBounds(row, 2) != -1)
+                  {
+                    currentPosition = ledMap[row][2];
+                    row = currentPosition;
+                  }
               }
             else 
               {
-                if(checkIfOutOfBounds(4, 5, row, column-1) != -1)
-                  column -= 1;
+                if(checkIfOutOfBounds(row, 1) != -1)
+                  {
+                    currentPosition = ledMap[row][1];
+                    row = currentPosition;
+                  }
               }
             hasHandledMove = 1;
             directionThatNeedsToReset = direction;
@@ -108,10 +127,8 @@ void clickHandler(){
 
 void setup() {
   Serial.begin(9600);
-  initialRow = 3;
-  row = 3;
-  initialColumn = 4;
-  column = 4;
+  initialRow = 7;
+  row = 7;
   whatToDoWithClicking = 0;
   for(int i = 0; i < lengthPins; i++)
     pinMode(pins[i], OUTPUT);
@@ -135,9 +152,8 @@ void loop() {
   clickState = !digitalRead(clickPin);
 
   //Move handling
-  moveHandler(xValue, 0);
-  moveHandler(yValue, 1);
-  currentPosition = ledMap[row][column];
+  moveHandler(xValue, 1);
+  moveHandler(yValue, 0);
   //Click handling
   clickHandler();
 
@@ -157,11 +173,11 @@ void loop() {
     {
       for(int i = 0; i<lengthPins; i++)
         currPressedState[i] = 0;
-      currentPosition = ledMap[initialRow][initialColumn];
+      currentPosition = 7;
       lastPosition = currentPosition;
       currConfig[currentPosition] = 1;
-      row = 3;
-      column = 4;
+      row = 7;
+
       hasHandledReset = 1;
       whatToDoWithClicking=0;
     }
