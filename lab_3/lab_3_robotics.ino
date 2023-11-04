@@ -143,14 +143,14 @@ void setup() {
   hasHandledReset = 0;
   movedInDirectionBool=0;
   directionThatNeedsToReset = -1;
+  currentPosition = 7;
 }
 
 void loop() {
   //Read x and y from joystick input
   xValue = analogRead(xJoyPin);
   yValue = analogRead(yJoyPin);
-  clickState = !digitalRead(clickPin);
-
+  clickState = !digitalRead(clickPin); 
   //Move handling
   moveHandler(xValue, 1);
   moveHandler(yValue, 0);
