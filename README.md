@@ -1,6 +1,15 @@
 # Introduction-to-Robotics 2023-2024
 *Repo home to the homework/projects assigned as part of the IR course taken in the final year at FMI, UB. Each homework should specify the corresponding tasks, implementation, code and image files that went into the process of solving it.*
 
+## Homework 5
+
+<details>
+<summary>Develop a ”Smart Environment Monitor and Logger” using Arduino. This system will utilize various sensors to gather environmental data, log this data into EEPROM, and provide both visual feedback via an RGB LED and user interaction through a Serial Menu.</summary>
+<img src="https://github.com/Eronate/Introduction-to-Robotics/assets/99949441/7f98f412-7b50-4f4a-895e-83a88166bae8" width="500" height="500">
+  
+Functionality showcase: https://youtu.be/cpWhU1-xfDY
+</details>
+
 ## Homework 4 
 
 <details>
