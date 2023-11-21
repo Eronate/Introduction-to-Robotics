@@ -1,3 +1,5 @@
+#include <EEPROM.h>
+
 #define  MAIN_MENU 0
 
 #define  SENSOR_SETTINGS 1
@@ -59,8 +61,15 @@ void setup()
 
 void ReadSensors()
 {
+
+  if(EEPROM.read(0) != sensorSamplingRateUltrasonic)
+    sensorSamplingRateUltrasonic = EEPROM.read(0);
+
+  if(EEPROM.read(sizeof(int)) != sensorSamplingRatePhoto)
+    sensorSamplingRatePhoto = EEPROM.read(sizeof(int));
+
   if(millis() - readingTimeUltrasonic > sensorSamplingRateUltrasonic * 1000)
-  {
+  { 
     //Signal the ultrasonic sensor to send ultrasonic waves and intercept them, calculating the distance 
     digitalWrite(trigPin, HIGH);
     delayMicroseconds(10);
@@ -187,6 +196,7 @@ void SensorSettingsHandler()
 
 void SensorSamplingIntervalHandler() 
 {
+  int valueRead;
   if(hasDisplayed == 0)
   {
     Serial.println("Write individual values inline (Ultrasonic value, then LDR value): _ _");
@@ -195,9 +205,11 @@ void SensorSamplingIntervalHandler()
   if(Serial.available() >= 4)
   {
     hasDisplayed = 0;
-    sensorSamplingRateUltrasonic = Serial.parseInt();
-    sensorSamplingRatePhoto = Serial.parseInt();
-    Serial.println("Your sensors have been updated to: " + String(sensorSamplingRateUltrasonic) + " " + String(sensorSamplingRatePhoto));
+    valueRead = Serial.parseInt();
+    EEPROM.put(0, valueRead);
+    valueRead = Serial.parseInt();
+    EEPROM.put(sizeof(int), valueRead);
+    Serial.println("Your sensors have been updated to: " + String(EEPROM.read(0)) + " " + String(EEPROM.read(sizeof(int))));
     menuState = SENSOR_SETTINGS;
   }
 }
