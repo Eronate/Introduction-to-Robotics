@@ -1,6 +1,14 @@
 # Introduction-to-Robotics 2023-2024
 *Repo home to the homework/projects assigned as part of the IR course taken in the final year at FMI, UB. Each homework should specify the corresponding tasks, implementation, code and image files that went into the process of solving it.*
 
+# Homework 6
+<details>
+<summary>Develop a small game on the 8x8 matrix. The game must have at least 3 types of elements: player (blinks slowly), bombs/bullets (blinks fast), wall (doesn’t blink). The basic idea is that you generate walls on the map (50% - 75% of the map) and then you move around with the player and destroy them. You can do it Bomberman style or terminator-tanks style (or another way, be creative). </summary>
+<img src="https://github.com/Eronate/Introduction-to-Robotics/assets/99949441/e58eeafa-4c25-4b1d-83ac-b1447196748f" width="500" height="400">
+  
+Functionality showcase: https://youtu.be/b-_ReiODskc
+</details>
+
 ## Homework 5
 
 <details>
